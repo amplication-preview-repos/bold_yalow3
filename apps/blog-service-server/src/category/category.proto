@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+                 package category;
+service CategoryService {
+ rpc createCategory (CategoryCreateInput) returns (Category) {}
+rpc categories (findManyParams) returns (stream Category) {}
+rpc category (CategoryWhereUniqueInput) returns (Category) {}
+rpc updateCategory (CategoryUpdateInput) returns (Category) {}
+rpc deleteCategory (CategoryWhereUniqueInput) returns (Category) {} 
+ }
+message CategoryCreateInput {
+string id = 1;
+string createdAt = 2;
+string updatedAt = 3;
+string name = 4;
+string description = 5;
+};
+message Category {
+string id = 1;
+string createdAt = 2;
+string updatedAt = 3;
+string name = 4;
+string description = 5;
+};
+message CategoryWhereUniqueInput {
+string id = 1;
+string createdAt = 2;
+string updatedAt = 3;
+string name = 4;
+string description = 5;
+};
+message CategoryUpdateInput {
+string id = 1;
+string createdAt = 2;
+string updatedAt = 3;
+string name = 4;
+string description = 5;
+};
+message findManyParams {
+
+};

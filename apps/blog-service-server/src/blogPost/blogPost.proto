@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+                 package blogPost;
+service BlogPostService {
+ rpc createBlogPost (BlogPostCreateInput) returns (BlogPost) {}
+rpc blogPosts (findManyParams) returns (stream BlogPost) {}
+rpc blogPost (BlogPostWhereUniqueInput) returns (BlogPost) {}
+rpc updateBlogPost (BlogPostUpdateInput) returns (BlogPost) {}
+rpc deleteBlogPost (BlogPostWhereUniqueInput) returns (BlogPost) {}
+rpc findManyBlogPost (BlogPostWhereUniqueInput) returns (stream Comment) {}
+rpc updateBlogPost (CommentParams) returns (stream Comment) {}
+rpc connectBlogPost (CommentParams) returns (Comment) {}
+rpc disconnectBlogPost (CommentParams) returns (Comment) {} 
+ }
+message BlogPostCreateInput {
+string id = 1;
+string createdAt = 2;
+string updatedAt = 3;
+string publishedAt = 4;
+string title = 5;
+string author = 6;
+string blogService = 7;
+string content = 8;
+repeated Comment comments = 9;
+};
+message BlogPost {
+string id = 1;
+string createdAt = 2;
+string updatedAt = 3;
+string publishedAt = 4;
+string title = 5;
+string author = 6;
+string blogService = 7;
+string content = 8;
+repeated Comment comments = 9;
+};
+message BlogPostWhereUniqueInput {
+string id = 1;
+string createdAt = 2;
+string updatedAt = 3;
+string publishedAt = 4;
+string title = 5;
+string author = 6;
+string blogService = 7;
+string content = 8;
+repeated Comment comments = 9;
+};
+message BlogPostUpdateInput {
+string id = 1;
+string createdAt = 2;
+string updatedAt = 3;
+string publishedAt = 4;
+string title = 5;
+string author = 6;
+string blogService = 7;
+string content = 8;
+repeated Comment comments = 9;
+};
+message findManyParams {
+
+};
+message Comment {
+string id = 1;
+string createdAt = 2;
+string updatedAt = 3;
+string text = 4;
+string author = 5;
+string commentedAt = 6;
+string commentText = 7;
+string commentAuthor = 8;
+string contentText = 9;
+string commentator = 10;
+string dateCommented = 11;
+string relatedPost = 12;
+};
+message CommentWhereUniqueInput {
+string id = 1;
+string createdAt = 2;
+string updatedAt = 3;
+string text = 4;
+string author = 5;
+string commentedAt = 6;
+string commentText = 7;
+string commentAuthor = 8;
+string contentText = 9;
+string commentator = 10;
+string dateCommented = 11;
+string relatedPost = 12;
+};
+message CommentParams {
+BlogPostWhereUniqueInput blogPostWhereUniqueInput = 1;
+CommentWhereUniqueInput commentWhereUniqueInput = 2;
+};
