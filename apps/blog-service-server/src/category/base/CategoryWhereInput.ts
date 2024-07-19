@@ -13,8 +13,9 @@ import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { IsOptional, ValidateNested } from "class-validator";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { BlogPostListRelationFilter } from "../../blogPost/base/BlogPostListRelationFilter";
 
 @InputType()
 class CategoryWhereInput {
@@ -50,6 +51,18 @@ class CategoryWhereInput {
     nullable: true,
   })
   description?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => BlogPostListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => BlogPostListRelationFilter)
+  @IsOptional()
+  @Field(() => BlogPostListRelationFilter, {
+    nullable: true,
+  })
+  blogPosts?: BlogPostListRelationFilter;
 }
 
 export { CategoryWhereInput as CategoryWhereInput };

@@ -11,8 +11,15 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsDate, MaxLength, IsOptional } from "class-validator";
+import {
+  IsString,
+  IsDate,
+  MaxLength,
+  IsOptional,
+  ValidateNested,
+} from "class-validator";
 import { Type } from "class-transformer";
+import { BlogPost } from "../../blogPost/base/BlogPost";
 
 @ObjectType()
 class Category {
@@ -63,6 +70,15 @@ class Category {
     nullable: true,
   })
   description!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [BlogPost],
+  })
+  @ValidateNested()
+  @Type(() => BlogPost)
+  @IsOptional()
+  blogPosts?: Array<BlogPost>;
 }
 
 export { Category as Category };

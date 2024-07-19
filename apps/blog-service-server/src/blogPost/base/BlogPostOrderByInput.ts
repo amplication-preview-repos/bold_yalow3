@@ -106,6 +106,17 @@ class BlogPostOrderByInput {
     nullable: true,
   })
   content?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  categoryId?: SortOrder;
 }
 
 export { BlogPostOrderByInput as BlogPostOrderByInput };

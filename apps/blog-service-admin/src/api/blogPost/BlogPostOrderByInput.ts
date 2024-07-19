@@ -9,4 +9,5 @@ export type BlogPostOrderByInput = {
   author?: SortOrder;
   blogService?: SortOrder;
   content?: SortOrder;
+  categoryId?: SortOrder;
 };

@@ -20,6 +20,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { CommentCreateNestedManyWithoutBlogPostsInput } from "./CommentCreateNestedManyWithoutBlogPostsInput";
+import { CategoryWhereUniqueInput } from "../../category/base/CategoryWhereUniqueInput";
 
 @InputType()
 class BlogPostCreateInput {
@@ -93,6 +94,18 @@ class BlogPostCreateInput {
     nullable: true,
   })
   comments?: CommentCreateNestedManyWithoutBlogPostsInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CategoryWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => CategoryWhereUniqueInput)
+  @IsOptional()
+  @Field(() => CategoryWhereUniqueInput, {
+    nullable: true,
+  })
+  category?: CategoryWhereUniqueInput | null;
 }
 
 export { BlogPostCreateInput as BlogPostCreateInput };

@@ -20,6 +20,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { CommentUpdateManyWithoutBlogPostsInput } from "./CommentUpdateManyWithoutBlogPostsInput";
+import { CategoryWhereUniqueInput } from "../../category/base/CategoryWhereUniqueInput";
 
 @InputType()
 class BlogPostUpdateInput {
@@ -93,6 +94,18 @@ class BlogPostUpdateInput {
     nullable: true,
   })
   comments?: CommentUpdateManyWithoutBlogPostsInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CategoryWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => CategoryWhereUniqueInput)
+  @IsOptional()
+  @Field(() => CategoryWhereUniqueInput, {
+    nullable: true,
+  })
+  category?: CategoryWhereUniqueInput | null;
 }
 
 export { BlogPostUpdateInput as BlogPostUpdateInput };

@@ -22,6 +22,9 @@ import { Category } from "./Category";
 import { CategoryFindManyArgs } from "./CategoryFindManyArgs";
 import { CategoryWhereUniqueInput } from "./CategoryWhereUniqueInput";
 import { CategoryUpdateInput } from "./CategoryUpdateInput";
+import { BlogPostFindManyArgs } from "../../blogPost/base/BlogPostFindManyArgs";
+import { BlogPost } from "../../blogPost/base/BlogPost";
+import { BlogPostWhereUniqueInput } from "../../blogPost/base/BlogPostWhereUniqueInput";
 
 export class CategoryControllerBase {
   constructor(protected readonly service: CategoryService) {}
@@ -137,5 +140,90 @@ export class CategoryControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/blogPosts")
+  @ApiNestedQuery(BlogPostFindManyArgs)
+  async findBlogPosts(
+    @common.Req() request: Request,
+    @common.Param() params: CategoryWhereUniqueInput
+  ): Promise<BlogPost[]> {
+    const query = plainToClass(BlogPostFindManyArgs, request.query);
+    const results = await this.service.findBlogPosts(params.id, {
+      ...query,
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        publishedAt: true,
+        title: true,
+        author: true,
+        blogService: true,
+        content: true,
+
+        category: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/blogPosts")
+  async connectBlogPosts(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: BlogPostWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      blogPosts: {
+        connect: body,
+      },
+    };
+    await this.service.updateCategory({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/blogPosts")
+  async updateBlogPosts(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: BlogPostWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      blogPosts: {
+        set: body,
+      },
+    };
+    await this.service.updateCategory({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/blogPosts")
+  async disconnectBlogPosts(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: BlogPostWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      blogPosts: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateCategory({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

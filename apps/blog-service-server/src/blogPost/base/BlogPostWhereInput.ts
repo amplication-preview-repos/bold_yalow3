@@ -17,6 +17,7 @@ import { IsOptional, ValidateNested } from "class-validator";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { CommentListRelationFilter } from "../../comment/base/CommentListRelationFilter";
+import { CategoryWhereUniqueInput } from "../../category/base/CategoryWhereUniqueInput";
 
 @InputType()
 class BlogPostWhereInput {
@@ -97,6 +98,18 @@ class BlogPostWhereInput {
     nullable: true,
   })
   comments?: CommentListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => CategoryWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => CategoryWhereUniqueInput)
+  @IsOptional()
+  @Field(() => CategoryWhereUniqueInput, {
+    nullable: true,
+  })
+  category?: CategoryWhereUniqueInput;
 }
 
 export { BlogPostWhereInput as BlogPostWhereInput };

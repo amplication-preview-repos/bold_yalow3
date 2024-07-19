@@ -34,7 +34,15 @@ export class BlogPostControllerBase {
     @common.Body() data: BlogPostCreateInput
   ): Promise<BlogPost> {
     return await this.service.createBlogPost({
-      data: data,
+      data: {
+        ...data,
+
+        category: data.category
+          ? {
+              connect: data.category,
+            }
+          : undefined,
+      },
       select: {
         id: true,
         createdAt: true,
@@ -44,6 +52,12 @@ export class BlogPostControllerBase {
         author: true,
         blogService: true,
         content: true,
+
+        category: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -64,6 +78,12 @@ export class BlogPostControllerBase {
         author: true,
         blogService: true,
         content: true,
+
+        category: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -85,6 +105,12 @@ export class BlogPostControllerBase {
         author: true,
         blogService: true,
         content: true,
+
+        category: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
     if (result === null) {
@@ -105,7 +131,15 @@ export class BlogPostControllerBase {
     try {
       return await this.service.updateBlogPost({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          category: data.category
+            ? {
+                connect: data.category,
+              }
+            : undefined,
+        },
         select: {
           id: true,
           createdAt: true,
@@ -115,6 +149,12 @@ export class BlogPostControllerBase {
           author: true,
           blogService: true,
           content: true,
+
+          category: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {
@@ -145,6 +185,12 @@ export class BlogPostControllerBase {
           author: true,
           blogService: true,
           content: true,
+
+          category: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {

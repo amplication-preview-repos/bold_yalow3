@@ -24,6 +24,9 @@ import { CategoryWhereUniqueInput } from "./CategoryWhereUniqueInput";
 import { CategoryFindManyArgs } from "./CategoryFindManyArgs";
 import { CategoryUpdateInput } from "./CategoryUpdateInput";
 import { Category } from "./Category";
+import { BlogPostFindManyArgs } from "../../blogPost/base/BlogPostFindManyArgs";
+import { BlogPost } from "../../blogPost/base/BlogPost";
+import { BlogPostWhereUniqueInput } from "../../blogPost/base/BlogPostWhereUniqueInput";
 
 export class CategoryGrpcControllerBase {
   constructor(protected readonly service: CategoryService) {}
@@ -144,5 +147,94 @@ export class CategoryGrpcControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/blogPosts")
+  @ApiNestedQuery(BlogPostFindManyArgs)
+  @GrpcMethod("CategoryService", "findManyBlogPosts")
+  async findManyBlogPosts(
+    @common.Req() request: Request,
+    @common.Param() params: CategoryWhereUniqueInput
+  ): Promise<BlogPost[]> {
+    const query = plainToClass(BlogPostFindManyArgs, request.query);
+    const results = await this.service.findBlogPosts(params.id, {
+      ...query,
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        publishedAt: true,
+        title: true,
+        author: true,
+        blogService: true,
+        content: true,
+
+        category: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/blogPosts")
+  @GrpcMethod("CategoryService", "connectBlogPosts")
+  async connectBlogPosts(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: BlogPostWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      blogPosts: {
+        connect: body,
+      },
+    };
+    await this.service.updateCategory({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/blogPosts")
+  @GrpcMethod("CategoryService", "updateBlogPosts")
+  async updateBlogPosts(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: BlogPostWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      blogPosts: {
+        set: body,
+      },
+    };
+    await this.service.updateCategory({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/blogPosts")
+  @GrpcMethod("CategoryService", "disconnectBlogPosts")
+  async disconnectBlogPosts(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: BlogPostWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      blogPosts: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateCategory({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

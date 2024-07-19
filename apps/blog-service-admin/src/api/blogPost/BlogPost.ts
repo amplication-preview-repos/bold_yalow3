@@ -1,4 +1,5 @@
 import { Comment } from "../comment/Comment";
+import { Category } from "../category/Category";
 
 export type BlogPost = {
   id: string;
@@ -10,4 +11,5 @@ export type BlogPost = {
   blogService: string | null;
   content: string | null;
   comments?: Array<Comment>;
+  category?: Category | null;
 };

@@ -20,6 +20,8 @@ import { CategoryFindUniqueArgs } from "./CategoryFindUniqueArgs";
 import { CreateCategoryArgs } from "./CreateCategoryArgs";
 import { UpdateCategoryArgs } from "./UpdateCategoryArgs";
 import { DeleteCategoryArgs } from "./DeleteCategoryArgs";
+import { BlogPostFindManyArgs } from "../../blogPost/base/BlogPostFindManyArgs";
+import { BlogPost } from "../../blogPost/base/BlogPost";
 import { CategoryService } from "../category.service";
 @graphql.Resolver(() => Category)
 export class CategoryResolverBase {
@@ -95,5 +97,19 @@ export class CategoryResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [BlogPost], { name: "blogPosts" })
+  async findBlogPosts(
+    @graphql.Parent() parent: Category,
+    @graphql.Args() args: BlogPostFindManyArgs
+  ): Promise<BlogPost[]> {
+    const results = await this.service.findBlogPosts(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }

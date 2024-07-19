@@ -20,6 +20,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { Comment } from "../../comment/base/Comment";
+import { Category } from "../../category/base/Category";
 
 @ObjectType()
 class BlogPost {
@@ -114,6 +115,15 @@ class BlogPost {
   @Type(() => Comment)
   @IsOptional()
   comments?: Array<Comment>;
+
+  @ApiProperty({
+    required: false,
+    type: () => Category,
+  })
+  @ValidateNested()
+  @Type(() => Category)
+  @IsOptional()
+  category?: Category | null;
 }
 
 export { BlogPost as BlogPost };

@@ -1,4 +1,5 @@
 import { CommentCreateNestedManyWithoutBlogPostsInput } from "./CommentCreateNestedManyWithoutBlogPostsInput";
+import { CategoryWhereUniqueInput } from "../category/CategoryWhereUniqueInput";
 
 export type BlogPostCreateInput = {
   publishedAt?: Date | null;
@@ -7,4 +8,5 @@ export type BlogPostCreateInput = {
   blogService?: string | null;
   content?: string | null;
   comments?: CommentCreateNestedManyWithoutBlogPostsInput;
+  category?: CategoryWhereUniqueInput | null;
 };

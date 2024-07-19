@@ -22,6 +22,7 @@ import { UpdateBlogPostArgs } from "./UpdateBlogPostArgs";
 import { DeleteBlogPostArgs } from "./DeleteBlogPostArgs";
 import { CommentFindManyArgs } from "../../comment/base/CommentFindManyArgs";
 import { Comment } from "../../comment/base/Comment";
+import { Category } from "../../category/base/Category";
 import { BlogPostService } from "../blogPost.service";
 @graphql.Resolver(() => BlogPost)
 export class BlogPostResolverBase {
@@ -60,7 +61,15 @@ export class BlogPostResolverBase {
   ): Promise<BlogPost> {
     return await this.service.createBlogPost({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        category: args.data.category
+          ? {
+              connect: args.data.category,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -71,7 +80,15 @@ export class BlogPostResolverBase {
     try {
       return await this.service.updateBlogPost({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          category: args.data.category
+            ? {
+                connect: args.data.category,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -111,6 +128,21 @@ export class BlogPostResolverBase {
     }
 
     return results;
+  }
+
+  @graphql.ResolveField(() => Category, {
+    nullable: true,
+    name: "category",
+  })
+  async getCategory(
+    @graphql.Parent() parent: BlogPost
+  ): Promise<Category | null> {
+    const result = await this.service.getCategory(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 
   @graphql.Query(() => String)

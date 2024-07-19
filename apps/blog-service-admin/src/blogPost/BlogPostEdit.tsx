@@ -8,9 +8,12 @@ import {
   TextInput,
   ReferenceArrayInput,
   SelectArrayInput,
+  ReferenceInput,
+  SelectInput,
 } from "react-admin";
 
 import { CommentTitle } from "../comment/CommentTitle";
+import { CategoryTitle } from "../category/CategoryTitle";
 
 export const BlogPostEdit = (props: EditProps): React.ReactElement => {
   return (
@@ -29,6 +32,13 @@ export const BlogPostEdit = (props: EditProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={CommentTitle} />
         </ReferenceArrayInput>
+        <ReferenceInput
+          source="category.id"
+          reference="Category"
+          label="Category"
+        >
+          <SelectInput optionText={CategoryTitle} />
+        </ReferenceInput>
       </SimpleForm>
     </Edit>
   );

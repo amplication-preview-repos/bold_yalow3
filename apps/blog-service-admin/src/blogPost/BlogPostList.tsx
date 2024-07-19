@@ -1,6 +1,14 @@
 import * as React from "react";
-import { List, Datagrid, ListProps, TextField, DateField } from "react-admin";
+import {
+  List,
+  Datagrid,
+  ListProps,
+  TextField,
+  DateField,
+  ReferenceField,
+} from "react-admin";
 import Pagination from "../Components/Pagination";
+import { CATEGORY_TITLE_FIELD } from "../category/CategoryTitle";
 
 export const BlogPostList = (props: ListProps): React.ReactElement => {
   return (
@@ -20,6 +28,13 @@ export const BlogPostList = (props: ListProps): React.ReactElement => {
         <TextField label="author" source="author" />
         <TextField label="BlogService" source="blogService" />
         <TextField label="content" source="content" />
+        <ReferenceField
+          label="Category"
+          source="category.id"
+          reference="Category"
+        >
+          <TextField source={CATEGORY_TITLE_FIELD} />
+        </ReferenceField>
       </Datagrid>
     </List>
   );

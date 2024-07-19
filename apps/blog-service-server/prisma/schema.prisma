@@ -17,6 +17,8 @@ model BlogPost {
   blogService String?
   content     String?
   comments    Comment[]
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String?
 }
 
 model Comment {
@@ -37,9 +39,10 @@ model Comment {
 }
 
 model Category {
-  id          String   @id @default(cuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   name        String?
   description String?
+  blogPosts   BlogPost[]
 }

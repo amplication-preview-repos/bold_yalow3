@@ -2,6 +2,7 @@ import { StringFilter } from "../../util/StringFilter";
 import { DateTimeNullableFilter } from "../../util/DateTimeNullableFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { CommentListRelationFilter } from "../comment/CommentListRelationFilter";
+import { CategoryWhereUniqueInput } from "../category/CategoryWhereUniqueInput";
 
 export type BlogPostWhereInput = {
   id?: StringFilter;
@@ -11,4 +12,5 @@ export type BlogPostWhereInput = {
   blogService?: StringNullableFilter;
   content?: StringNullableFilter;
   comments?: CommentListRelationFilter;
+  category?: CategoryWhereUniqueInput;
 };

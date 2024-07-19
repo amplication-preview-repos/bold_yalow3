@@ -10,10 +10,12 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
   BlogPost as PrismaBlogPost,
   Comment as PrismaComment,
+  Category as PrismaCategory,
 } from "@prisma/client";
 
 export class BlogPostServiceBase {
@@ -58,6 +60,14 @@ export class BlogPostServiceBase {
         where: { id: parentId },
       })
       .comments(args);
+  }
+
+  async getCategory(parentId: string): Promise<PrismaCategory | null> {
+    return this.prisma.blogPost
+      .findUnique({
+        where: { id: parentId },
+      })
+      .category();
   }
   async TestAction(args: string): Promise<string> {
     throw new Error("Not implemented");

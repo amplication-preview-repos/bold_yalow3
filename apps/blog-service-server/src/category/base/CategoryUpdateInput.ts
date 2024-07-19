@@ -11,7 +11,14 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MaxLength, IsOptional } from "class-validator";
+import {
+  IsString,
+  MaxLength,
+  IsOptional,
+  ValidateNested,
+} from "class-validator";
+import { BlogPostUpdateManyWithoutCategoriesInput } from "./BlogPostUpdateManyWithoutCategoriesInput";
+import { Type } from "class-transformer";
 
 @InputType()
 class CategoryUpdateInput {
@@ -38,6 +45,18 @@ class CategoryUpdateInput {
     nullable: true,
   })
   description?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => BlogPostUpdateManyWithoutCategoriesInput,
+  })
+  @ValidateNested()
+  @Type(() => BlogPostUpdateManyWithoutCategoriesInput)
+  @IsOptional()
+  @Field(() => BlogPostUpdateManyWithoutCategoriesInput, {
+    nullable: true,
+  })
+  blogPosts?: BlogPostUpdateManyWithoutCategoriesInput;
 }
 
 export { CategoryUpdateInput as CategoryUpdateInput };

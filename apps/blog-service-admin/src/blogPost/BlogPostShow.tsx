@@ -6,12 +6,13 @@ import {
   ShowProps,
   TextField,
   DateField,
+  ReferenceField,
   ReferenceManyField,
   Datagrid,
-  ReferenceField,
 } from "react-admin";
 
 import { BLOGPOST_TITLE_FIELD } from "./BlogPostTitle";
+import { CATEGORY_TITLE_FIELD } from "../category/CategoryTitle";
 
 export const BlogPostShow = (props: ShowProps): React.ReactElement => {
   return (
@@ -25,6 +26,13 @@ export const BlogPostShow = (props: ShowProps): React.ReactElement => {
         <TextField label="author" source="author" />
         <TextField label="BlogService" source="blogService" />
         <TextField label="content" source="content" />
+        <ReferenceField
+          label="Category"
+          source="category.id"
+          reference="Category"
+        >
+          <TextField source={CATEGORY_TITLE_FIELD} />
+        </ReferenceField>
         <ReferenceManyField
           reference="Comment"
           target="blogPostId"
