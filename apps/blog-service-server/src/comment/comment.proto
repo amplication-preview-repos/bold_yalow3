@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+                 package comment;
+service CommentService {
+ rpc createComment (CommentCreateInput) returns (Comment) {}
+rpc comments (findManyParams) returns (stream Comment) {}
+rpc comment (CommentWhereUniqueInput) returns (Comment) {}
+rpc updateComment (CommentUpdateInput) returns (Comment) {}
+rpc deleteComment (CommentWhereUniqueInput) returns (Comment) {} 
+ }
+message CommentCreateInput {
+string author = 1;
+string commentAuthor = 2;
+string commentText = 3;
+string commentator = 4;
+string commentedAt = 5;
+string contentText = 6;
+string createdAt = 7;
+string dateCommented = 8;
+string id = 9;
+string relatedPost = 10;
+string text = 11;
+string updatedAt = 12;
+};
+message Comment {
+string author = 1;
+string commentAuthor = 2;
+string commentText = 3;
+string commentator = 4;
+string commentedAt = 5;
+string contentText = 6;
+string createdAt = 7;
+string dateCommented = 8;
+string id = 9;
+string relatedPost = 10;
+string text = 11;
+string updatedAt = 12;
+};
+message CommentWhereUniqueInput {
+string author = 1;
+string commentAuthor = 2;
+string commentText = 3;
+string commentator = 4;
+string commentedAt = 5;
+string contentText = 6;
+string createdAt = 7;
+string dateCommented = 8;
+string id = 9;
+string relatedPost = 10;
+string text = 11;
+string updatedAt = 12;
+};
+message CommentUpdateInput {
+string author = 1;
+string commentAuthor = 2;
+string commentText = 3;
+string commentator = 4;
+string commentedAt = 5;
+string contentText = 6;
+string createdAt = 7;
+string dateCommented = 8;
+string id = 9;
+string relatedPost = 10;
+string text = 11;
+string updatedAt = 12;
+};
+message findManyParams {
+
+};

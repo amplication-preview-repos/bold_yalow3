@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+                 package category;
+service CategoryService {
+ rpc createCategory (CategoryCreateInput) returns (Category) {}
+rpc categories (findManyParams) returns (stream Category) {}
+rpc category (CategoryWhereUniqueInput) returns (Category) {}
+rpc updateCategory (CategoryUpdateInput) returns (Category) {}
+rpc deleteCategory (CategoryWhereUniqueInput) returns (Category) {}
+rpc findManyCategory (CategoryWhereUniqueInput) returns (stream BlogPost) {}
+rpc updateCategory (BlogPostParams) returns (stream BlogPost) {}
+rpc connectCategory (BlogPostParams) returns (BlogPost) {}
+rpc disconnectCategory (BlogPostParams) returns (BlogPost) {} 
+ }
+message CategoryCreateInput {
+repeated BlogPost blogPosts = 1;
+string createdAt = 2;
+string description = 3;
+string id = 4;
+string name = 5;
+string updatedAt = 6;
+};
+message Category {
+repeated BlogPost blogPosts = 1;
+string createdAt = 2;
+string description = 3;
+string id = 4;
+string name = 5;
+string updatedAt = 6;
+};
+message CategoryWhereUniqueInput {
+repeated BlogPost blogPosts = 1;
+string createdAt = 2;
+string description = 3;
+string id = 4;
+string name = 5;
+string updatedAt = 6;
+};
+message CategoryUpdateInput {
+repeated BlogPost blogPosts = 1;
+string createdAt = 2;
+string description = 3;
+string id = 4;
+string name = 5;
+string updatedAt = 6;
+};
+message findManyParams {
+
+};
+message BlogPost {
+string author = 1;
+string blogService = 2;
+string content = 3;
+string createdAt = 4;
+string id = 5;
+string publishedAt = 6;
+string title = 7;
+string updatedAt = 8;
+};
+message BlogPostWhereUniqueInput {
+string author = 1;
+string blogService = 2;
+string content = 3;
+string createdAt = 4;
+string id = 5;
+string publishedAt = 6;
+string title = 7;
+string updatedAt = 8;
+};
+message BlogPostParams {
+CategoryWhereUniqueInput categoryWhereUniqueInput = 1;
+BlogPostWhereUniqueInput blogpostWhereUniqueInput = 2;
+};
