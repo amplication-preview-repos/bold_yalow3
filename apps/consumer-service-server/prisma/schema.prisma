@@ -1,0 +1,18 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ConsumedEvent {
+  createdAt    DateTime  @default(now())
+  eventPayload Json?
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  processed    Boolean?
+  processedAt  DateTime?
+  testField    Json?
+  updatedAt    DateTime  @updatedAt
+}
